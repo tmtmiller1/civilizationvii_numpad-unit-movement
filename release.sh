@@ -63,7 +63,8 @@ cp docs/screenshots/*.jpg "$DIST_DIR/$MOD_ID-screenshots/"
 # update back) and without a description (the Workshop page text is written and kept on Steam by hand). A saved
 # id in steam_workshop_id.txt makes it an update; with none, steamcmd creates the item and prints the new id.
 PUBLISHED_FILE_ID="$(tr -dc '0-9' < steam_workshop_id.txt 2>/dev/null || true)"
-CHANGENOTE="$(awk -v v="$VERSION" '/^## \[/{p=index($0,"["v"]")>0; next} p' CHANGELOG.md | sed -E 's/^- /• /; s/^  / /' | sed '/^$/d')"
+CHANGENOTE="$(awk -v v="$VERSION" '/^## \[/{p=index($0,"["v"]")>0; next} p' CHANGELOG.md \
+    | awk '/^- /{if (b) print b; b=$0; next} /^ +/{sub(/^ +/, " "); b=b $0} END{if (b) print b}' | sed 's/^- /• /')"
 {
     echo '"workshopitem"'
     echo '{'
