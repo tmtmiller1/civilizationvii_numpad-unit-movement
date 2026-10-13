@@ -1,0 +1,29 @@
+[h1]Numpad Unit Movement[/h1]
+[i]Numpad Unit Movement[/i] moves your units with the number pad. Select a unit, press a key, and it steps one tile that way. Hold a key and the same keys plan a longer route, with the game drawing the path as you go. Made for anyone playing on a laptop trackpad, or who'd rather keep both hands on the keyboard.
+Every press goes to the game as a right-click on that tile, so attacking, swapping places with your own unit and the declare-war prompt all work exactly as they do with the mouse.
+[h2]Why it exists[/h2]
+Civilization V and VI let you move units with the number pad. Civilization VII dropped it, so on a laptop every move is a trackpad right-click. This mod brings the keys back, and adds route planning so a long trip is a few taps rather than a long drag.
+[h2]What it does[/h2]
+[list]
+[*][b]One key, one tile.[/b] 7 up-left, 8 up, 9 up-right, 4 left, 6 right, 1 down-left, 2 down, 3 down-right. The map is hexes, so there's no tile straight above or below a unit; 8 and 2 take the upper or lower tile on alternate sides, and two presses carry you straight up or down.
+[*][b]Plan a route.[/b] Hold Numpad 5, or Ctrl for the other hand, and tap the direction keys. A marker steps across the map and the game draws the path and the turn count to it. Let go and the unit sets off, carrying on next turn if the trip takes longer. Escape while you're holding drops the route.
+[*][b]Cancel.[/b] Numpad 0 cancels the unit's current order, like the Cancel button on its action bar.
+[*][b]Your keys.[/b] Every key, the eight directions, the two hold keys and Cancel, can be changed under Options > Add-ons > Numpad Unit Movement. Your choices are saved.
+[*][b]Everything else works as before.[/b] The game and other mods still get every key press; the mouse, the camera keys (arrows, W A S D) and gamepads are untouched. The keys only act on the map with a unit selected: in menus, while you're typing, or while the game is asking you to pick a tile, they're ignored.
+[*][b]Safe for any game.[/b] Your saves and the game's rules are untouched, so you can switch the mod on or off in the middle of a game.
+[/list]
+[h2]Source and documentation[/h2]
+[list]
+[*][b]What's new:[/b] [url=https://github.com/tmtmiller1/civilizationvii_numpad-unit-movement/releases/latest]the latest release notes and a download[/url]
+[*][b]Full documentation:[/b] [url=https://github.com/tmtmiller1/civilizationvii_numpad-unit-movement/blob/main/README.md]how the mod works[/url]
+[/list]
+[h2]For modders[/h2]
+This mod is developed with [url=https://github.com/tmtmiller1/civilizationvii_tower-bench]Tower Bench[/url], a free, open-source test bench for macOS to make it easier to create Civilization VII mods.
+[h2]Credits[/h2]
+[list]
+[*][b]Tower[/b], for design and Civilization VII implementation.
+[/list]
+[h2]Special Thanks[/h2]
+[list]
+[*][b]Potato McWhisky[/b], for teaching me to love again, Civilization-wise (Civ VI), after growing up as a Civilization II, IV, and V player. Making this mod is an act of faith that the community will eventually help make Civilization VII as good as the previous entries.
+[/list]
