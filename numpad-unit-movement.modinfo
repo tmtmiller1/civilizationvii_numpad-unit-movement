@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="tmt-numpad-unit-movement" version="1" xmlns="ModInfo">
+    <Properties>
+        <Name>LOC_MOD_NUMPAD_UNIT_MOVEMENT_NAME</Name>
+        <Description>LOC_MOD_NUMPAD_UNIT_MOVEMENT_DESCRIPTION</Description>
+        <Authors>Tower</Authors>
+        <Version>0.1.0</Version>
+        <AffectsSavedGames>0</AffectsSavedGames>
+    </Properties>
+    <Dependencies>
+        <Mod id="base-standard" title="LOC_MODULE_BASE_STANDARD_NAME" />
+    </Dependencies>
+    <ActionCriteria>
+        <Criteria id="always">
+            <AlwaysMet></AlwaysMet>
+        </Criteria>
+    </ActionCriteria>
+    <ActionGroups>
+        <ActionGroup id="numpad-unit-movement-shell" scope="shell" criteria="always">
+            <Actions>
+                <UpdateText>
+                    <Item>text/en_us/ModText.xml</Item>
+                </UpdateText>
+                <UIScripts>
+                    <!-- Tower Settings Keeper: listed first, imports nothing, so it runs before anything reads storage. -->
+                    <Item>ui/settings-keeper.js</Item>
+                    <Item>ui/numpad-options.js</Item>
+                </UIScripts>
+                <ImportFiles>
+                    <Item>ui/numpad-options.js</Item>
+                    <Item>ui/numpad-keys.js</Item>
+                    <Item>ui/numpad-settings.js</Item>
+                </ImportFiles>
+            </Actions>
+        </ActionGroup>
+        <ActionGroup id="numpad-unit-movement-game" scope="game" criteria="always">
+            <Actions>
+                <UpdateText>
+                    <Item>text/en_us/ModText.xml</Item>
+                </UpdateText>
+                <UIScripts>
+                    <Item>ui/settings-keeper.js</Item>
+                    <Item>ui/numpad-options.js</Item>
+                    <Item>ui/numpad-unit-movement.js</Item>
+                </UIScripts>
+                <ImportFiles>
+                    <Item>ui/numpad-options.js</Item>
+                    <Item>ui/numpad-keys.js</Item>
+                    <Item>ui/numpad-settings.js</Item>
+                </ImportFiles>
+            </Actions>
+        </ActionGroup>
+    </ActionGroups>
+    <LocalizedText>
+        <File>text/en_us/ModText.xml</File>
+    </LocalizedText>
+</Mod>

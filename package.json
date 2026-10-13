@@ -1,0 +1,13 @@
+{
+  "name": "numpad-unit-movement",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "npx --yes eslint \"ui/**/*.js\" --no-error-on-unmatched-pattern",
+    "check": "node --check ui/numpad-keys.js && node --check ui/numpad-settings.js && node --check ui/numpad-options.js && node --check ui/numpad-unit-movement.js",
+    "test": "node --test tests/*.test.mjs",
+    "verify": "npm run lint && npm run check && npm run test",
+    "release:gate": "npm run verify"
+  }
+}
