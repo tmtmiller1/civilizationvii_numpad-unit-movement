@@ -5,33 +5,30 @@ trackpad or anyone who would rather not click. The keys can be changed in Option
 
 ![Options > Add-ons > Numpad Unit Movement](docs/screenshots/01-options.jpg)
 
-## What it does
+## How it works
 
-- With a unit selected, a number pad key moves it one tile in that direction: 7 up-left, 8 up, 9 up-right, 4 left,
+- Select a unit and press a number pad key, and it moves one tile that way: 7 up-left, 8 up, 9 up-right, 4 left,
   6 right, 1 down-left, 2 down, 3 down-right.
-- Each press is exactly a right-click on that tile, through the game's own code. Moving, attacking, swapping places
-  with your own unit and the declare-war prompt all behave as a click would.
-- Hold Numpad 5, or Ctrl for the other hand, and the same keys walk a marker across the map instead; the game draws
-  the route and turn count as you go. Release the key and the unit is sent there, across several turns if needed,
-  exactly as a right-click on that tile would. Escape while holding drops the route.
-- Numpad 0 is the game's own Cancel action: a unit carrying out an order stops where it is and waits. The key does
-  nothing when there is nothing to cancel.
-- Every key, the eight directions, the two hold keys and Cancel, can be changed in Options > Add-ons, and the
-  choice is kept between games.
+- Hold Numpad 5, or Ctrl for the other hand, and the same keys walk a marker across the map instead, with the
+  game's route and turn count drawn as you go. Let go and the unit sets off, carrying on over later turns if it
+  has to. Escape while holding drops the route.
+- Numpad 0 cancels the unit's current order, like the Cancel button on its action bar.
+- Every press is a right-click on that tile, through the game's own code, so attacking, swapping places with your
+  own unit and the declare-war prompt all work as they do with the mouse.
+- Any of the keys can be changed in Options > Add-ons, and your choices are saved.
 
-## What it does not do
+## Good to know
 
-- It does not change gameplay, units, movement points or rules, and it writes nothing into a save. It can be added
-  to or removed from any game.
-- It does not take keys away from the game or from other mods, and it does not touch the mouse, the camera keys
-  (arrows, W A S D) or a gamepad.
-- It does not move a unit while the game is asking you to pick a tile (ranged attack, Move To, placing a building),
-  while a screen or menu is open, or while you type.
-- It does not find paths itself: the route goes to the game as one right-click on the destination, and the game's
-  own pathfinding takes it from there, with the same limits as a mouse order (a unit that is already carrying out
-  an order refuses a new one until it finishes).
-- It does not add new hotkeys to the game's Keyboard Mapping screen; the keys are set on the mod's own rows under
-  Options > Add-ons.
+- Your saves and the game's rules are untouched, so you can switch the mod on or off in the middle of a game.
+- The game and other mods still get every key press, and the mouse, the camera keys (arrows, W A S D) and gamepads
+  work as before.
+- The keys only work on the map with a unit selected. In menus, while you're typing, or while the game is asking
+  you to pick a tile (a ranged attack, Move To, placing a building), they're ignored.
+- Routes use the game's own pathfinding: the mod hands over the destination, the game finds the way, with the same
+  limits as a mouse order. A unit that's already carrying out an order has to finish, or be cancelled with Numpad
+  0, before it takes a new one.
+- The keys are set on the mod's own rows under Options > Add-ons, so you'll find them there rather than on the
+  game's Keyboard Mapping screen.
 
 ## Using it
 
@@ -56,13 +53,11 @@ Select a unit and press a number pad key:
   straight up the screen.
 - The unit stays selected while it has moves left, so you can keep pressing. When it runs out, the game moves on to
   the next unit as it normally does.
-- Holding a key down does not repeat: one press, one tile.
-- Keys work only on the map with a unit selected. They do nothing while you type in a text box (chat, renaming a
-  city), while a screen or menu is open, or while the game is asking you to pick a tile (a ranged attack target,
-  where to place a building, the Move To order).
-- The mod never takes a key away from the game or from other mods: they see every key press as before. The mouse,
-  the camera keys (arrows, WASD) and a gamepad are not touched: the mod reads keyboard presses only, and the gamepad
-  goes through the game's input actions, which it never handles.
+- One press, one tile; holding a key down doesn't repeat.
+- The keys work on the map with a unit selected. In a text box (chat, renaming a city), in a menu, or while the
+  game is asking you to pick a tile, they're ignored.
+- The game and other mods still get every key press. The mod reads keyboard presses only, so the mouse, the camera
+  keys (arrows, WASD) and a gamepad work as before.
 
 ## Planning a route
 
