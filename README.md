@@ -106,7 +106,7 @@ into the game's `Mods` directory, so that `Mods/numpad-unit-movement/numpad-unit
 enable Numpad Unit Movement in the game's mod settings.
 
 The `Mods` directory is `%LOCALAPPDATA%\Firaxis Games\Sid Meier's Civilization VII\Mods` on Windows and
-`~/Library/Application Support/Civilization VII/Mods` on a Mac. It changes nothing in a save, so it can be turned on or off at any
+`~/Library/Application Support/Civilization VII/Mods` on a Mac. Your saves aren't touched, so you can turn it on or off at any
 time.
 
 Made for Civilization VII 1.5.0.
