@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Icon and Workshop emblem for Numpad Unit Movement, on the Tower-mods template (dark ground, gold frame,
+     parchment art, serif wordmark). Motif: the eight direction keys of a number pad around the unit's tile. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"
+     font-family="Georgia, 'Times New Roman', serif">
+  <title>Numpad Unit Movement</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#243042"/>
+      <stop offset="100%" stop-color="#121821"/>
+    </linearGradient>
+    <linearGradient id="parchment" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7eed1"/>
+      <stop offset="100%" stop-color="#e7d4a3"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e7d4a3" stop-opacity="0.30"/>
+      <stop offset="100%" stop-color="#e7d4a3" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background and gold frame -->
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect x="26" y="26" width="972" height="972" rx="30" fill="none" stroke="#c9a24c" stroke-width="4" opacity="0.5"/>
+
+  <!-- Light over the keypad -->
+  <circle cx="512" cy="380" r="360" fill="url(#glow)"/>
+
+  <!-- The eight direction keys -->
+  <g transform="translate(0 -22)">
+  <g fill="url(#parchment)" stroke="#c9a24c" stroke-width="6" stroke-linejoin="round">
+    <rect x="207" y="95" width="178" height="178" rx="26"/>
+    <rect x="423" y="95" width="178" height="178" rx="26"/>
+    <rect x="639" y="95" width="178" height="178" rx="26"/>
+    <rect x="207" y="311" width="178" height="178" rx="26"/>
+    <rect x="639" y="311" width="178" height="178" rx="26"/>
+    <rect x="207" y="527" width="178" height="178" rx="26"/>
+    <rect x="423" y="527" width="178" height="178" rx="26"/>
+    <rect x="639" y="527" width="178" height="178" rx="26"/>
+  </g>
+  <g fill="#243042" font-size="124" font-weight="bold" text-anchor="middle">
+    <text x="296" y="227">7</text>
+    <text x="512" y="227">8</text>
+    <text x="728" y="227">9</text>
+    <text x="296" y="443">4</text>
+    <text x="728" y="443">6</text>
+    <text x="296" y="659">1</text>
+    <text x="512" y="659">2</text>
+    <text x="728" y="659">3</text>
+  </g>
+
+  <!-- The unit on its map tile, where the 5 key sits -->
+  <polygon points="512,502 424,451 424,349 512,298 600,349 600,451" fill="#2b3648" stroke="#c9a24c" stroke-width="6" stroke-linejoin="round"/>
+  <g fill="url(#parchment)">
+    <circle cx="512" cy="366" r="29"/>
+    <path d="M462 454 C 462 404 562 404 562 454 Z"/>
+  </g>
+  </g>
+
+  <!-- Wordmark, two lines -->
+  <g text-anchor="middle" font-size="84" font-weight="bold" fill="#e7d4a3" letter-spacing="2">
+    <text x="512" y="818">NUMPAD</text>
+    <text x="512" y="912">UNIT MOVEMENT</text>
+  </g>
+</svg>

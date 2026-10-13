@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database>
+    <EnglishText>
+        <Row Tag="LOC_MOD_NUMPAD_UNIT_MOVEMENT_NAME">
+            <Text>Numpad Unit Movement</Text>
+        </Row>
+        <Row Tag="LOC_MOD_NUMPAD_UNIT_MOVEMENT_DESCRIPTION">
+            <Text>Move the selected unit one tile at a time with the number pad. The keys can be changed in Options.</Text>
+        </Row>
+        <Row Tag="LOC_OPTIONS_GROUP_NUMPAD_UNIT_MOVEMENT">
+            <Text>Numpad Unit Movement</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_NORTHWEST">
+            <Text>Move up-left</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_NORTH">
+            <Text>Move up</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_NORTHEAST">
+            <Text>Move up-right</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_WEST">
+            <Text>Move left</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_EAST">
+            <Text>Move right</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_SOUTHWEST">
+            <Text>Move down-left</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_SOUTH">
+            <Text>Move down</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_SOUTHEAST">
+            <Text>Move down-right</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_OPTION_DESCRIPTION">
+            <Text>The key that moves the selected unit one tile this way, as a right-click on that tile would. "Move up" and "Move down" step between the two upper or lower tiles in turn, so the unit travels straight up or down the map.</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_KEY_NONE">
+            <Text>None</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_KEY_GAME">
+            <Text>{1_Key} (also a game hotkey)</Text>
+        </Row>
+    </EnglishText>
+</Database>
