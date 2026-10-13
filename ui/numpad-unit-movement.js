@@ -4,7 +4,7 @@ import { ContextManager } from '/core/ui/context-manager/context-manager.js';
 import { InterfaceMode } from '/core/ui/interface-modes/interface-modes.js';
 import ViewManager from '/core/ui/views/view-manager.js';
 import { isIgnoredPress, keyCodeOf, routeDirectionFor, settingFor } from '/tmt-numpad-unit-movement/ui/numpad-keys.js';
-import { DIRECTIONS, ROUTE_HOLDS, getBindings } from '/tmt-numpad-unit-movement/ui/numpad-settings.js';
+import { CANCEL, DIRECTIONS, ROUTE_HOLDS, getBindings } from '/tmt-numpad-unit-movement/ui/numpad-settings.js';
 
 // The map is rows of pointy-top hexes, so a tile has no neighbour straight above or below it. "north" and "south"
 // take the diagonal neighbour that stays in the same column; pressed again from the next row, that is the other
@@ -120,6 +120,17 @@ function moveOneTile(direction) {
   if (onMap(target)) WorldInput.doActionOnPlot(target);
 }
 
+// The game's own Cancel action, as its button on the unit's action bar sends it: the unit drops the order it is
+// carrying out and waits. The game decides whether there is anything to cancel.
+function cancelOrders() {
+  if (!canMoveNow()) return;
+  const unit = selectedUnit();
+  if (!unit) return;
+  const parameters = { X: unit.location.x, Y: unit.location.y };
+  if (!Game.UnitCommands?.canStart(unit.id, "UNITCOMMAND_CANCEL", parameters, false).Success) return;
+  Game.UnitCommands.sendRequest(unit.id, "UNITCOMMAND_CANCEL", parameters);
+}
+
 function onKeyDown(event) {
   if (event.repeat) return;
   const code = keyCodeOf(event);
@@ -127,6 +138,7 @@ function onKeyDown(event) {
   const bindings = getBindings();
   if (settingFor(ROUTE_HOLDS, bindings, code)) return startRoute(code);
   if (isIgnoredPress(event)) return;
+  if (bindings[CANCEL.id] === code) return cancelOrders();
   const direction = settingFor(DIRECTIONS, bindings, code);
   if (direction) moveOneTile(direction);
 }

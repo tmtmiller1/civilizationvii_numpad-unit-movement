@@ -56,8 +56,11 @@ export const ROUTE_HOLDS = [
   { id: "route-left", label: "LOC_NUMPAD_MOVE_ROUTE_KEY_LEFT", key: "Control", keys: HOLD_KEYS },
 ];
 
+// The game's own Cancel action, the button that appears while a unit is carrying out an order.
+export const CANCEL = { id: "cancel", label: "LOC_NUMPAD_MOVE_CANCEL", key: "Numpad0", keys: KEYS };
+
 // Every setting, in the order the Options rows show them.
-export const SETTINGS = [...DIRECTIONS, ...ROUTE_HOLDS];
+export const SETTINGS = [...DIRECTIONS, ...ROUTE_HOLDS, CANCEL];
 
 function readRoot() {
   try {

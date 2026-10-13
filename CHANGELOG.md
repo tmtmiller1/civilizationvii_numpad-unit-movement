@@ -9,4 +9,5 @@ All notable changes to Numpad Unit Movement are documented here. This project fo
 - Route planning: hold Numpad 5 (or Ctrl, for the other hand) and press the direction keys to walk a marker across
   the map; the game draws the path and turn count as you go. Release the key and the unit is sent there as one
   right-click would, across several turns if needed. Escape while holding drops the route.
-- Each direction's key and both hold keys can be changed in Options > Add-ons.
+- Numpad 0 is the game's own Cancel action: a unit carrying out an order stops and waits.
+- Each direction's key, both hold keys and Cancel can be changed in Options > Add-ons.
