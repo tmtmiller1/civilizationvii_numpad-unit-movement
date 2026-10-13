@@ -70,6 +70,12 @@
         <Row Tag="LOC_NUMPAD_MOVE_ROUTE_KEY_LEFT_DESCRIPTION">
             <Text>A second key for planning a route, so either hand can hold it. Works exactly like the first.</Text>
         </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_CANCEL">
+            <Text>Cancel the unit's orders</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_CANCEL_DESCRIPTION">
+            <Text>The game's own Cancel action, the button that appears while a unit is carrying out an order: the unit stops where it is and waits for a new order. The key does nothing when the unit has no order to cancel.</Text>
+        </Row>
         <Row Tag="LOC_NUMPAD_MOVE_KEY_SHIFT">
             <Text>Shift (on Windows, also pans the camera)</Text>
         </Row>

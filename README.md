@@ -14,8 +14,10 @@ trackpad or anyone who would rather not click. The keys can be changed in Option
 - Hold Numpad 5, or Ctrl for the other hand, and the same keys walk a marker across the map instead; the game draws
   the route and turn count as you go. Release the key and the unit is sent there, across several turns if needed,
   exactly as a right-click on that tile would. Escape while holding drops the route.
-- Every key, the eight directions and the two hold keys, can be changed in Options > Add-ons, and the choice is
-  kept between games.
+- Numpad 0 is the game's own Cancel action: a unit carrying out an order stops where it is and waits. The key does
+  nothing when there is nothing to cancel.
+- Every key, the eight directions, the two hold keys and Cancel, can be changed in Options > Add-ons, and the
+  choice is kept between games.
 
 ## What it does not do
 
@@ -69,11 +71,16 @@ game draws the dotted path and turn count to it, as it does while a right-click 
 unit sets off; the game pathfinds the route and carries on over later turns if it has to. Ctrl does the same for
 the other hand. Escape while holding drops the route; so does releasing with the marker back on the unit's tile.
 
+A unit on a multi-turn route keeps going at the start of each turn. Numpad 0 calls it off: it is the game's Cancel
+action, the button that appears on the unit's bar while it has an order, and the unit then waits where it is for a
+new one. A unit that is still carrying out an order refuses a new route until it is cancelled or finishes, which is
+how the game treats a mouse order too.
+
 ![A route planned with Numpad 5 held: the path and turn counts to the marker](docs/images/route-preview.png)
 
 ## Changing the keys
 
-Options > Add-ons > Numpad Unit Movement has one row per direction and one for each hold key. Each row offers the number pad digits, + and *,
+Options > Add-ons > Numpad Unit Movement has one row per direction, one for each hold key and one for Cancel. Each row offers the number pad digits, + and *,
 the number row, Home, End, Page Up, Page Down, Delete, and the letters. Letters are marked "(also a game hotkey)": the game still does its own action for those keys, so pick one only if you have
 moved that game hotkey elsewhere. Choose "None" to switch a direction off. A change applies to the next key press,
 in the main menu or during a game.
@@ -162,6 +169,8 @@ Route planning, real key presses through macOS:
 - Events sent into the page: Escape while holding dropped the route, with the preview cleared and the unit still.
   A unit that is still carrying out an earlier multi-turn order refused a new one, through the game's own
   `canStart` check, exactly as a right-click would.
+- Cancel: with a two-turn route queued, Numpad 0 cleared it (the game's `canStart` for Cancel went from true to
+  false and the queued destination was gone); on an idle unit, and pressed a second time, it did nothing.
 
 Events sent into the page with `devtools/step.sh` and by hand, with the fields the game sends:
 

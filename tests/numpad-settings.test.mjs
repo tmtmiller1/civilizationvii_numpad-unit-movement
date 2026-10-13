@@ -63,6 +63,12 @@ test("every default key is offered in Options, and no code is listed twice", () 
   assert.equal(new Set(holdCodes).size, holdCodes.length);
 });
 
+test("the cancel key defaults to Numpad 0 and is offered the same keys as a direction", () => {
+  assert.equal(getBindings().cancel, "Numpad0");
+  setBinding("cancel", "Delete");
+  assert.equal(getBindings().cancel, "Delete");
+});
+
 test("the route hold keys are saved and read back like the directions", () => {
   assert.equal(getBindings().route, "Numpad5");
   assert.equal(getBindings()["route-left"], "Control");
