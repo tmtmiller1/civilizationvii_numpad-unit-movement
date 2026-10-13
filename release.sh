@@ -59,4 +59,21 @@ mkdir -p "$DIST_DIR/$MOD_ID-logos" "$DIST_DIR/$MOD_ID-screenshots"
 cp docs/workshop-preview.png docs/workshop-preview.svg images/$MOD_ID-icon.png images/$MOD_ID-icon.svg "$DIST_DIR/$MOD_ID-logos/"
 cp docs/screenshots/*.jpg "$DIST_DIR/$MOD_ID-screenshots/"
 ( cd "$DIST_DIR" && zip -qr "$MOD_ID-v${VERSION}-logos.zip" "$MOD_ID-logos" && zip -qr "$MOD_ID-v${VERSION}-screenshots.zip" "$MOD_ID-screenshots" )
-echo "release: $ZIP_PATH ($(du -h "$ZIP_PATH" | cut -f1)), plus -logos.zip and -screenshots.zip"
+# steamcmd manifest, without a preview line (a previewfile upload is refused with "Access Denied" and rolls the
+# update back) and without a description (the Workshop page text is written and kept on Steam by hand). A saved
+# id in steam_workshop_id.txt makes it an update; with none, steamcmd creates the item and prints the new id.
+PUBLISHED_FILE_ID="$(tr -dc '0-9' < steam_workshop_id.txt 2>/dev/null || true)"
+CHANGENOTE="$(awk -v v="$VERSION" '/^## \[/{p=index($0,"["v"]")>0; next} p' CHANGELOG.md | sed -E 's/^- /• /; s/^  / /' | sed '/^$/d')"
+{
+    echo '"workshopitem"'
+    echo '{'
+    echo '    "appid"          "1295660"'
+    [ -n "$PUBLISHED_FILE_ID" ] && echo "    \"publishedfileid\" \"$PUBLISHED_FILE_ID\""
+    echo "    \"contentfolder\"  \"$(pwd)/$TARGET_DIR\""
+    echo '    "visibility"     "0"'
+    echo '    "title"          "Numpad Unit Movement"'
+    echo "    \"changenote\"     \"[b]Version $VERSION[/b]"
+    echo "$CHANGENOTE\""
+    echo '}'
+} > "$DIST_DIR/workshop_item_no_preview.vdf"
+echo "release: $ZIP_PATH ($(du -h "$ZIP_PATH" | cut -f1)), plus -logos.zip, -screenshots.zip and workshop_item_no_preview.vdf"
