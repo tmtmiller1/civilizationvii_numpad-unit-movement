@@ -152,7 +152,7 @@ physical number pad produces):
   Page Up, Page Down, Delete, `Digit6` and `KeyG` arrive with standard codes; ; arrives as `SemiColon`, so
   punctuation is not offered.
 
-Route planning (0.2.0), real key presses through macOS:
+Route planning, real key presses through macOS:
 
 - Holding Numpad 5 and pressing 4 three times put the marker three tiles west with the game's path preview drawn;
   releasing sent the settler, which moved as far as its points allowed (two tiles) and kept the rest of the route
