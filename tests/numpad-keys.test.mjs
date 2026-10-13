@@ -1,18 +1,28 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-import { directionFor, isIgnoredPress, keyCodeOf } from "../ui/numpad-keys.js";
-import { DIRECTIONS } from "../ui/numpad-settings.js";
+import { isIgnoredPress, keyCodeOf, routeDirectionFor, settingFor } from "../ui/numpad-keys.js";
+import { DIRECTIONS, ROUTE_HOLDS, SETTINGS } from "../ui/numpad-settings.js";
 
 // Fields as the game delivered them on a Mac, recorded 2026-10-13 (see README test record).
 const GAME_NUMPAD_7 = { code: "NumPad7", key: "g", keyCode: 103, location: 0 };
 const GAME_DIGIT_6 = { code: "Digit6", key: "6", keyCode: 54, location: 0 };
+const GAME_CTRL = { code: "Control", key: "", keyCode: 17, location: 0 };
+const GAME_NUMPAD_5 = { code: "NumPad5", key: "e", keyCode: 101, location: 0 };
+
+const DEFAULTS = Object.fromEntries(SETTINGS.map((s) => [s.id, s.key]));
 
 test("the game's keypad codes read as standard codes", () => {
   assert.equal(keyCodeOf(GAME_NUMPAD_7), "Numpad7");
   assert.equal(keyCodeOf({ code: "Numpad7" }), "Numpad7");
   assert.equal(keyCodeOf(GAME_DIGIT_6), "Digit6");
   assert.equal(keyCodeOf({ code: "Home", keyCode: 36 }), "Home");
+});
+
+test("Ctrl and Shift read the same whichever side and however the game names them", () => {
+  assert.equal(keyCodeOf(GAME_CTRL), "Control");
+  assert.equal(keyCodeOf({ code: "LeftControl" }), "Control");
+  assert.equal(keyCodeOf({ code: "RightShift" }), "Shift");
 });
 
 test("a keypad key with no code is read from its key code, never from key", () => {
@@ -38,23 +48,37 @@ test("held keys and modified presses are ignored", () => {
 });
 
 test("the default keys map to the eight directions like the keypad's layout", () => {
-  const defaults = Object.fromEntries(DIRECTIONS.map((d) => [d.id, d.key]));
   const expected = {
     Numpad7: "northwest", Numpad8: "north", Numpad9: "northeast",
     Numpad4: "west", Numpad6: "east",
     Numpad1: "southwest", Numpad2: "south", Numpad3: "southeast"
   };
   for (const [code, direction] of Object.entries(expected)) {
-    assert.equal(directionFor(DIRECTIONS, defaults, code), direction, code);
+    assert.equal(settingFor(DIRECTIONS, DEFAULTS, code), direction, code);
   }
-  assert.equal(directionFor(DIRECTIONS, defaults, "Numpad5"), null);
-  assert.equal(directionFor(DIRECTIONS, defaults, "Digit6"), null);
-  assert.equal(directionFor(DIRECTIONS, defaults, ""), null);
+  assert.equal(settingFor(DIRECTIONS, DEFAULTS, "Numpad5"), null);
+  assert.equal(settingFor(DIRECTIONS, DEFAULTS, "Digit6"), null);
+  assert.equal(settingFor(DIRECTIONS, DEFAULTS, ""), null);
 });
 
-test("a key bound twice goes to the first direction in the list", () => {
-  const bindings = Object.fromEntries(DIRECTIONS.map((d) => [d.id, ""]));
+test("a key bound twice goes to the first setting in the list", () => {
+  const bindings = Object.fromEntries(SETTINGS.map((s) => [s.id, ""]));
   bindings.east = "Home";
   bindings.northwest = "Home";
-  assert.equal(directionFor(DIRECTIONS, bindings, "Home"), "northwest");
+  assert.equal(settingFor(DIRECTIONS, bindings, "Home"), "northwest");
+});
+
+test("by default a route is planned with Numpad 5 or Ctrl held, and no direction key is a hold key", () => {
+  assert.equal(settingFor(ROUTE_HOLDS, DEFAULTS, keyCodeOf(GAME_NUMPAD_5)), "route");
+  assert.equal(settingFor(ROUTE_HOLDS, DEFAULTS, keyCodeOf(GAME_CTRL)), "route-left");
+  for (const d of DIRECTIONS) assert.equal(settingFor(ROUTE_HOLDS, DEFAULTS, d.key), null, d.key);
+});
+
+test("while planning, the direction keys steer, and so do the keys a Windows keypad sends with Shift held", () => {
+  assert.equal(routeDirectionFor(DIRECTIONS, DEFAULTS, "Numpad9"), "northeast");
+  assert.equal(routeDirectionFor(DIRECTIONS, DEFAULTS, "PageUp"), "northeast");
+  assert.equal(routeDirectionFor(DIRECTIONS, DEFAULTS, "ArrowUp"), "north");
+  assert.equal(routeDirectionFor(DIRECTIONS, DEFAULTS, "End"), "southwest");
+  assert.equal(routeDirectionFor(DIRECTIONS, DEFAULTS, "Numpad5"), null);
+  assert.equal(routeDirectionFor(DIRECTIONS, DEFAULTS, "KeyQ"), null);
 });

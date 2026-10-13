@@ -9,7 +9,7 @@ globalThis.localStorage = {
   removeItem: (key) => store.delete(key)
 };
 
-const { DIRECTIONS, KEYS, MOD_ID, getBindings, setBinding } = await import("../ui/numpad-settings.js");
+const { DIRECTIONS, HOLD_KEYS, KEYS, MOD_ID, ROUTE_HOLDS, getBindings, setBinding } = await import("../ui/numpad-settings.js");
 const silenceErrors = (t) => t.mock.method(console, "error", () => {});
 
 beforeEach(() => store.clear());
@@ -58,8 +58,25 @@ test("every default key is offered in Options, and no code is listed twice", () 
   const codes = KEYS.map((k) => k.code);
   for (const d of DIRECTIONS) assert.ok(codes.includes(d.key), d.key);
   assert.equal(new Set(codes).size, codes.length);
+  const holdCodes = HOLD_KEYS.map((k) => k.code);
+  for (const h of ROUTE_HOLDS) assert.ok(holdCodes.includes(h.key), h.key);
+  assert.equal(new Set(holdCodes).size, holdCodes.length);
+});
+
+test("the route hold keys are saved and read back like the directions", () => {
+  assert.equal(getBindings().route, "Numpad5");
+  assert.equal(getBindings()["route-left"], "Control");
+  setBinding("route-left", "Tab");
+  assert.equal(getBindings()["route-left"], "Tab");
+  assert.equal(getBindings().route, "Numpad5");
+});
+
+test("a direction cannot be given a modifier and a hold key cannot be given an unknown code", () => {
+  store.set("modSettings", JSON.stringify({ [MOD_ID]: { bindings: { east: "Control", route: "Semicolon" } } }));
+  assert.equal(getBindings().east, "Numpad6");
+  assert.equal(getBindings().route, "Numpad5");
 });
 
 test("only letters are marked as game hotkeys", () => {
-  for (const key of KEYS) assert.equal(key.gameKey, /^Key[A-Z]$/.test(key.code), key.code);
+  for (const key of [...KEYS, ...HOLD_KEYS]) assert.equal(key.gameKey, /^Key[A-Z]$/.test(key.code), key.code);
 });

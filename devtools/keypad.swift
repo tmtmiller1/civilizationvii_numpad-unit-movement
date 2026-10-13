@@ -5,6 +5,7 @@
 //   swiftc -O devtools/keypad.swift -o /tmp/keypad
 //   /tmp/keypad --request
 //   /tmp/keypad <game pid> 89 91 92      (keypad 7, 8, 9)
+//   /tmp/keypad <game pid> +59 92 92 -59 (hold left Ctrl, keypad 9 twice, release)
 //
 // Mac virtual key codes: keypad 0-9 are 82 83 84 85 86 87 88 89 91 92; the number row 6 is 22.
 import AppKit
@@ -29,7 +30,9 @@ for arg in args.dropFirst() {
     print("stopped before key \(arg): the game is no longer the frontmost app")
     exit(3)
   }
-  let code = CGKeyCode(arg)!
+  // "+<code>" presses a key and keeps it held, "-<code>" releases it; a bare code is one tap.
+  let holdDown = arg.hasPrefix("+"), holdUp = arg.hasPrefix("-")
+  let code = CGKeyCode(holdDown || holdUp ? String(arg.dropFirst()) : arg)!
   let source = CGEventSource(stateID: .hidSystemState)
   let down = CGEvent(keyboardEventSource: source, virtualKey: code, keyDown: true)!
   let up = CGEvent(keyboardEventSource: source, virtualKey: code, keyDown: false)!
@@ -37,8 +40,7 @@ for arg in args.dropFirst() {
     down.flags.insert(.maskNumericPad)
     up.flags.insert(.maskNumericPad)
   }
-  down.post(tap: .cghidEventTap)
-  usleep(60_000)
-  up.post(tap: .cghidEventTap)
-  usleep(2_500_000)
+  if !holdUp { down.post(tap: .cghidEventTap); usleep(60_000) }
+  if !holdDown { up.post(tap: .cghidEventTap) }
+  usleep(holdDown || holdUp ? 400_000 : 2_500_000)
 }

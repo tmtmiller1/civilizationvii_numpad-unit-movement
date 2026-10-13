@@ -10,32 +10,68 @@
         <Row Tag="LOC_OPTIONS_GROUP_NUMPAD_UNIT_MOVEMENT">
             <Text>Numpad Unit Movement</Text>
         </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_NORTHWEST_DESCRIPTION">
+            <Text>The key that moves the selected unit one tile this way, as a right-click on that tile would. "Move up" and "Move down" step between the two upper or lower tiles in turn, so the unit travels straight up or down the map. While a route key is held, this key moves the route marker instead.</Text>
+        </Row>
         <Row Tag="LOC_NUMPAD_MOVE_NORTHWEST">
             <Text>Move up-left</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_NORTH_DESCRIPTION">
+            <Text>The key that moves the selected unit one tile this way, as a right-click on that tile would. "Move up" and "Move down" step between the two upper or lower tiles in turn, so the unit travels straight up or down the map. While a route key is held, this key moves the route marker instead.</Text>
         </Row>
         <Row Tag="LOC_NUMPAD_MOVE_NORTH">
             <Text>Move up</Text>
         </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_NORTHEAST_DESCRIPTION">
+            <Text>The key that moves the selected unit one tile this way, as a right-click on that tile would. "Move up" and "Move down" step between the two upper or lower tiles in turn, so the unit travels straight up or down the map. While a route key is held, this key moves the route marker instead.</Text>
+        </Row>
         <Row Tag="LOC_NUMPAD_MOVE_NORTHEAST">
             <Text>Move up-right</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_WEST_DESCRIPTION">
+            <Text>The key that moves the selected unit one tile this way, as a right-click on that tile would. "Move up" and "Move down" step between the two upper or lower tiles in turn, so the unit travels straight up or down the map. While a route key is held, this key moves the route marker instead.</Text>
         </Row>
         <Row Tag="LOC_NUMPAD_MOVE_WEST">
             <Text>Move left</Text>
         </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_EAST_DESCRIPTION">
+            <Text>The key that moves the selected unit one tile this way, as a right-click on that tile would. "Move up" and "Move down" step between the two upper or lower tiles in turn, so the unit travels straight up or down the map. While a route key is held, this key moves the route marker instead.</Text>
+        </Row>
         <Row Tag="LOC_NUMPAD_MOVE_EAST">
             <Text>Move right</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_SOUTHWEST_DESCRIPTION">
+            <Text>The key that moves the selected unit one tile this way, as a right-click on that tile would. "Move up" and "Move down" step between the two upper or lower tiles in turn, so the unit travels straight up or down the map. While a route key is held, this key moves the route marker instead.</Text>
         </Row>
         <Row Tag="LOC_NUMPAD_MOVE_SOUTHWEST">
             <Text>Move down-left</Text>
         </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_SOUTH_DESCRIPTION">
+            <Text>The key that moves the selected unit one tile this way, as a right-click on that tile would. "Move up" and "Move down" step between the two upper or lower tiles in turn, so the unit travels straight up or down the map. While a route key is held, this key moves the route marker instead.</Text>
+        </Row>
         <Row Tag="LOC_NUMPAD_MOVE_SOUTH">
             <Text>Move down</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_SOUTHEAST_DESCRIPTION">
+            <Text>The key that moves the selected unit one tile this way, as a right-click on that tile would. "Move up" and "Move down" step between the two upper or lower tiles in turn, so the unit travels straight up or down the map. While a route key is held, this key moves the route marker instead.</Text>
         </Row>
         <Row Tag="LOC_NUMPAD_MOVE_SOUTHEAST">
             <Text>Move down-right</Text>
         </Row>
-        <Row Tag="LOC_NUMPAD_MOVE_OPTION_DESCRIPTION">
-            <Text>The key that moves the selected unit one tile this way, as a right-click on that tile would. "Move up" and "Move down" step between the two upper or lower tiles in turn, so the unit travels straight up or down the map.</Text>
+        <Row Tag="LOC_NUMPAD_MOVE_ROUTE_KEY">
+            <Text>Plan a route: hold</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_ROUTE_KEY_LEFT">
+            <Text>Plan a route: hold (other hand)</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_ROUTE_KEY_DESCRIPTION">
+            <Text>Hold this key and press the direction keys to walk a marker across the map from the selected unit. The game draws the path and turn count as you go. Release the key and the unit is sent there, as a right-click on that tile would; Escape while holding drops the route.</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_ROUTE_KEY_LEFT_DESCRIPTION">
+            <Text>A second key for planning a route, so either hand can hold it. Works exactly like the first.</Text>
+        </Row>
+        <Row Tag="LOC_NUMPAD_MOVE_KEY_SHIFT">
+            <Text>Shift (on Windows, also pans the camera)</Text>
         </Row>
         <Row Tag="LOC_NUMPAD_MOVE_KEY_NONE">
             <Text>None</Text>

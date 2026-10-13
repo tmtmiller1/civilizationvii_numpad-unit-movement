@@ -11,7 +11,11 @@ trackpad or anyone who would rather not click. The keys can be changed in Option
   6 right, 1 down-left, 2 down, 3 down-right.
 - Each press is exactly a right-click on that tile, through the game's own code. Moving, attacking, swapping places
   with your own unit and the declare-war prompt all behave as a click would.
-- Every direction's key can be changed in Options > Add-ons, and the choice is kept between games.
+- Hold Numpad 5, or Ctrl for the other hand, and the same keys walk a marker across the map instead; the game draws
+  the route and turn count as you go. Release the key and the unit is sent there, across several turns if needed,
+  exactly as a right-click on that tile would. Escape while holding drops the route.
+- Every key, the eight directions and the two hold keys, can be changed in Options > Add-ons, and the choice is
+  kept between games.
 
 ## What it does not do
 
@@ -21,7 +25,9 @@ trackpad or anyone who would rather not click. The keys can be changed in Option
   (arrows, W A S D) or a gamepad.
 - It does not move a unit while the game is asking you to pick a tile (ranged attack, Move To, placing a building),
   while a screen or menu is open, or while you type.
-- It does not plan a route: one press, one neighbouring tile. For a long trip, use the mouse as before.
+- It does not find paths itself: the route goes to the game as one right-click on the destination, and the game's
+  own pathfinding takes it from there, with the same limits as a mouse order (a unit that is already carrying out
+  an order refuses a new one until it finishes).
 - It does not add new hotkeys to the game's Keyboard Mapping screen; the keys are set on the mod's own rows under
   Options > Add-ons.
 
@@ -56,14 +62,25 @@ Select a unit and press a number pad key:
   the camera keys (arrows, WASD) and a gamepad are not touched: the mod reads keyboard presses only, and the gamepad
   goes through the game's input actions, which it never handles.
 
+## Planning a route
+
+Hold Numpad 5 and press direction keys: a marker walks across the map from the unit, one tile per press, and the
+game draws the dotted path and turn count to it, as it does while a right-click is held. Release Numpad 5 and the
+unit sets off; the game pathfinds the route and carries on over later turns if it has to. Ctrl does the same for
+the other hand. Escape while holding drops the route; so does releasing with the marker back on the unit's tile.
+
+![A route planned with Numpad 5 held: the path and turn counts to the marker](docs/images/route-preview.png)
+
 ## Changing the keys
 
-Options > Add-ons > Numpad Unit Movement has one row per direction. Each row offers the number pad digits, + and *,
+Options > Add-ons > Numpad Unit Movement has one row per direction and one for each hold key. Each row offers the number pad digits, + and *,
 the number row, Home, End, Page Up, Page Down, Delete, and the letters. Letters are marked "(also a game hotkey)": the game still does its own action for those keys, so pick one only if you have
 moved that game hotkey elsewhere. Choose "None" to switch a direction off. A change applies to the next key press,
 in the main menu or during a game.
 
-If two directions are given the same key, the first one in the list wins.
+If two directions are given the same key, the first one in the list wins. The hold keys offer Ctrl, Shift and Tab
+as well as the keys above; Shift carries a note because on Windows it makes the number pad send Home, the arrows
+and so on, which still steer the marker but also pan the camera.
 
 ![The keys on offer for one direction](docs/images/options-key-list.png)
 
@@ -134,6 +151,17 @@ physical number pad produces):
   location 0. The number pad . arrives as `NumpadSubtract` and - with no code, so neither is offered. Home, End,
   Page Up, Page Down, Delete, `Digit6` and `KeyG` arrive with standard codes; ; arrives as `SemiColon`, so
   punctuation is not offered.
+
+Route planning (0.2.0), real key presses through macOS:
+
+- Holding Numpad 5 and pressing 4 three times put the marker three tiles west with the game's path preview drawn;
+  releasing sent the settler, which moved as far as its points allowed (two tiles) and kept the rest of the route
+  queued for the next turn. Holding Ctrl and pressing 9 twice did the same toward the up-right.
+- Numpad 5 and Ctrl each send a key-down and a key-up the game passes on, and the keypad digits arrive unchanged
+  while either is held. Backquote sends no key-down and Caps Lock sends nothing, so neither is offered.
+- Events sent into the page: Escape while holding dropped the route, with the preview cleared and the unit still.
+  A unit that is still carrying out an earlier multi-turn order refused a new one, through the game's own
+  `canStart` check, exactly as a right-click would.
 
 Events sent into the page with `devtools/step.sh` and by hand, with the fields the game sends:
 
