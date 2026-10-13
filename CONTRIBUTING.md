@@ -24,9 +24,11 @@ Numpad Unit Movement is small: a key press becomes a right-click on the neighbou
 - `numpad-unit-movement.modinfo` loads the options in the shell and game scopes and the movement script in the game.
 - `text/en_us/ModText.xml` holds the text.
 - `images/` holds the icon (`numpad-unit-movement-icon.svg`, rendered to the PNG with
-  `rsvg-convert -w 512 -h 512`).
+  `rsvg-convert -w 512 -h 512`); `docs/workshop-preview.png` is the same art at 1024 for the Workshop and the GitHub
+  release, and `docs/screenshots/` holds the captures the README and the release show.
 - `tests/`, `eslint.config.js` and `package.json` are the dev gate; `npm run verify` runs lint, a syntax check and
-  the unit tests.
+  the unit tests. `./release.sh` runs the gate and builds the mod zip plus the `-logos` and `-screenshots` zips that
+  go on the GitHub release.
 - `devtools/` drives a running game through Tower Bench: `step.sh` sends one key event into the page,
   `real-keys.sh` presses each number pad key through macOS with `keypad.swift`, and `mouse.swift` moves and clicks
   the real mouse. Both need Accessibility permission and refuse to send anything unless the game is the frontmost

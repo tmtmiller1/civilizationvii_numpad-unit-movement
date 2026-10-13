@@ -3,7 +3,7 @@
 A Civilization VII mod. Move the selected unit one tile at a time with the number pad, for players on a laptop
 trackpad or anyone who would rather not click. The keys can be changed in Options.
 
-![Options > Add-ons > Numpad Unit Movement](docs/images/options.png)
+![Options > Add-ons > Numpad Unit Movement](docs/screenshots/01-options.jpg)
 
 ## What it does
 
@@ -76,7 +76,7 @@ action, the button that appears on the unit's bar while it has an order, and the
 new one. A unit that is still carrying out an order refuses a new route until it is cancelled or finishes, which is
 how the game treats a mouse order too.
 
-![A route planned with Numpad 5 held: the path and turn counts to the marker](docs/images/route-preview.png)
+![A route planned with Numpad 5 held: the path and turn counts to the marker](docs/screenshots/02-route-preview.jpg)
 
 ## Changing the keys
 
@@ -89,7 +89,7 @@ If two directions are given the same key, the first one in the list wins. The ho
 as well as the keys above; Shift carries a note because on Windows it makes the number pad send Home, the arrows
 and so on, which still steer the marker but also pan the camera.
 
-![The keys on offer for one direction](docs/images/options-key-list.png)
+![The keys on offer for one direction](docs/screenshots/03-options-key-list.jpg)
 
 ## Other mods
 

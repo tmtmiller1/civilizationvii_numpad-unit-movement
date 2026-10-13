@@ -52,4 +52,11 @@ if [ -n "$UNEXPECTED" ]; then
     exit 1
 fi
 unzip -l "$ZIP_PATH"
-echo "release: $ZIP_PATH ($(du -h "$ZIP_PATH" | cut -f1))"
+
+echo "==> Logo and screenshot zips for the GitHub release"
+rm -rf "$DIST_DIR/$MOD_ID-logos" "$DIST_DIR/$MOD_ID-screenshots"
+mkdir -p "$DIST_DIR/$MOD_ID-logos" "$DIST_DIR/$MOD_ID-screenshots"
+cp docs/workshop-preview.png docs/workshop-preview.svg images/$MOD_ID-icon.png images/$MOD_ID-icon.svg "$DIST_DIR/$MOD_ID-logos/"
+cp docs/screenshots/*.jpg "$DIST_DIR/$MOD_ID-screenshots/"
+( cd "$DIST_DIR" && zip -qr "$MOD_ID-v${VERSION}-logos.zip" "$MOD_ID-logos" && zip -qr "$MOD_ID-v${VERSION}-screenshots.zip" "$MOD_ID-screenshots" )
+echo "release: $ZIP_PATH ($(du -h "$ZIP_PATH" | cut -f1)), plus -logos.zip and -screenshots.zip"
