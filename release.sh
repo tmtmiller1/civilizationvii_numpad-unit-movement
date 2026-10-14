@@ -31,7 +31,7 @@ mkdir -p "$TARGET_DIR"
 echo "==> Mirroring the shipped files into $TARGET_DIR/"
 rsync -a --exclude='.git' --exclude='.gitignore' --exclude='.DS_Store' --exclude='dist' --exclude='node_modules' \
     --exclude='release.sh' --exclude='docs' --exclude='devtools' --exclude='tests' --exclude='package.json' \
-    --exclude='package-lock.json' --exclude='eslint.config.js' --exclude='CONTRIBUTING.md' --exclude='*.bak' \
+    --exclude='package-lock.json' --exclude='eslint.config.js' --exclude='CONTRIBUTING.md' --exclude='steam_workshop_id.txt' --exclude='*.bak' \
     ./ "$TARGET_DIR"/
 
 echo "==> Syntax-checking the shipped JS"
