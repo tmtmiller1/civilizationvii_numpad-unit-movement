@@ -2,6 +2,11 @@
 
 All notable changes to Numpad Unit Movement are documented here. This project follows semantic versioning.
 
+## [1.0.1] - 2026-10-14
+
+- The license now says that Civilization VII and its art and data belong to Firaxis and 2K. The mod itself plays
+  exactly as in 1.0.0.
+
 ## [1.0.0] - 2026-10-13
 
 - First release. The number pad moves the selected unit one tile in eight directions, as a right-click on that tile
