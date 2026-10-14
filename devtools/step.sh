@@ -1,6 +1,6 @@
 #!/bin/zsh
 # step.sh <digit> [code-style]  : restore moves, select the first unit, press the keypad digit, report the move.
-cd /Users/tylermiller/Repos/civilization_vii_mods/tools/tower-bench
+cd "$(dirname "$0")/../../../tools/tower-bench" || exit 1
 digit=$1; style=${2:-code}
 uid=$(node tower-bench.mjs eval "Players.get(GameContext.localPlayerID).Units.getUnitIds()[0].id" | tail -1)
 node tower-bench.mjs do moves --unit "$(node tower-bench.mjs eval "(()=>{const u=Units.get(Players.get(GameContext.localPlayerID).Units.getUnitIds()[0]);return u.location.x+','+u.location.y})()" | tail -1 | tr -d '"')" --yes > /dev/null 2>&1
