@@ -4,6 +4,8 @@ All notable changes to Numpad Unit Movement are documented here. This project fo
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-10-16
+
 - A key pressed while Shift, Alt (Option) or Cmd is held is left to the game and other mods, as it was always meant
   to be. The game leaves the modifier flags off every key press, so the old check never fired and Shift with a bound
   key moved the unit like the key alone. The mod now follows the modifier keys going down and coming up itself. Ctrl

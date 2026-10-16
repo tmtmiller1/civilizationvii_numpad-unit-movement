@@ -201,15 +201,15 @@ Game 1.5.0 on a Mac, seed 4242, Tower's usual mod set with Demographics' saved r
   that Up steps to was coast, so this doesn't show whether the marker moved.
 - The game left the modifier flags off: an Up arrow sent with Shift held reached the game's UI with `shiftKey`
   false, and Numpad 9 pressed with Ctrl held arrived with `ctrlKey` false. Shift and Ctrl arrive as key presses of
-  their own. So the 1.0.1 check for a held modifier never fired, which the change waiting for the next release fixes.
+  their own. So the 1.0.1 check for a held modifier never fired, which 1.0.2 fixes.
 - Each key press read and parsed the whole settings store, 7.7 ms a press on average (6.1 to 17.6 ms over 10
-  presses). The keys are now read once and kept, also waiting for the next release.
+  presses). From 1.0.2 the keys are read once and kept.
 - The first key presses sent just after bringing the game to the front sometimes went missing; once, the Ctrl
   key-down was lost and the unit stepped one tile per press instead of planning a route. Waiting 1.5 s after
   bringing the game forward fixed it.
 
 Not yet watched: Windows; the keys surviving a restart; whether a route's marker steps while Zoom, Tilt, & Rotate
-takes Shift+arrow; and the two changes waiting for the next release (the modifier check and keeping the keys). Once,
+takes Shift+arrow; and the two changes in 1.0.2 (the modifier check and keeping the keys). Once,
 after the Mac Help key was sent, the game's UI stopped getting key presses until the game was restarted. The cause
 isn't known, and the Help key wasn't sent in the 2026-10-15 session.
 
