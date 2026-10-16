@@ -213,6 +213,13 @@ takes Shift+arrow; and the two changes waiting for the next release (the modifie
 after the Mac Help key was sent, the game's UI stopped getting key presses until the game was restarted. The cause
 isn't known, and the Help key wasn't sent in the 2026-10-15 session.
 
+Half of the restart check, watched 2026-10-15 22:53 (usual set, the released copy the game serves, Antiquity lab
+game): Move up-left set to Page Up through its Options row and confirmed; the shared store read `PageUp` at once, and
+the `LocalStorage.sqlite` the game wrote when it quit holds `"northwest":"PageUp"` (the file from before the game had
+no bindings). The other half was watched 2026-10-16, on both sides (the usual set, and Numpad Unit Movement alone):
+with the store the game wrote put in place before the next launch, the stored row, `getBindings()` and the Options
+row all read the new key.
+
 ## Licence
 
 MIT.
