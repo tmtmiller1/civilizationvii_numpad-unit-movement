@@ -26,6 +26,7 @@ Numpad Unit Movement is small: a key press becomes a right-click on the neighbou
 - `images/` holds the icon (`numpad-unit-movement-icon.svg`, rendered to the PNG with
   `rsvg-convert -w 512 -h 512`); `docs/workshop-preview.png` is the same art at 1024 for the Workshop and the GitHub
   release, and `docs/screenshots/` holds the captures the README and the release show.
+- `docs/windows-checklist.md` lists the checks to run on Windows, where the mod hasn't been tried yet.
 - `tests/`, `eslint.config.js` and `package.json` are the dev gate; `npm run verify` runs lint, a syntax check and
   the unit tests. `./release.sh` runs the gate and builds the mod zip plus the `-logos` and `-screenshots` zips that
   go on the GitHub release.

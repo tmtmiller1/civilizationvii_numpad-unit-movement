@@ -2,6 +2,16 @@
 
 All notable changes to Numpad Unit Movement are documented here. This project follows semantic versioning.
 
+## [Unreleased]
+
+- A key pressed while Shift, Alt (Option) or Cmd is held is left to the game and other mods, as it was always meant
+  to be. The game leaves the modifier flags off every key press, so the old check never fired and Shift with a bound
+  key moved the unit like the key alone. The mod now follows the modifier keys going down and coming up itself. Ctrl
+  counts too, unless it's one of your route keys, as it is out of the box, so holding it still plans a route.
+- Your keys are read once when the game loads and kept, so a key press no longer reads every mod's saved settings.
+  With a large settings store (Demographics' records, for one) that read cost about 7 ms on every press. A change in
+  Options still applies to the next key press.
+
 ## [1.0.1] - 2026-10-14
 
 - The license now says that Civilization VII and its art and data belong to Firaxis and 2K. The mod itself plays

@@ -19,6 +19,11 @@ const NAV_KEY_DIRECTION = {
   PageDown: "southeast",
 };
 
+// The game's page leaves shiftKey, ctrlKey, altKey and metaKey false on every key event, even with the modifier
+// held, but the modifiers arrive as key events of their own. So the movement script keeps the set held right now.
+export const MODIFIERS = ["Control", "Alt", "Shift", "Meta"];
+const MODIFIER_FLAG = { Control: "ctrlKey", Alt: "altKey", Shift: "shiftKey", Meta: "metaKey" };
+
 /**
  * The pressed key as a standard KeyboardEvent.code. The game's own key events differ from a browser's: a keypad 7
  * arrives as code "NumPad7", key "g" (the letter for its key code 103) and location 0, and Ctrl arrives as
@@ -26,7 +31,8 @@ const NAV_KEY_DIRECTION = {
  * Lock off a Windows keypad sends Home, the arrows and so on, and those count as Home, the arrows and so on.
  */
 export function keyCodeOf(event) {
-  const code = (event.code ?? "").replace(/^numpad/i, "Numpad").replace(/^(Left|Right)(Control|Shift)$/, "$2");
+  const code = (event.code ?? "").replace(/^numpad/i, "Numpad")
+    .replace(/^(?:(?:Left|Right)(Control|Shift|Alt|Meta)|(Control|Shift|Alt|Meta)(?:Left|Right))$/, "$1$2");
   if (code) return code;
   if (KEYPAD_BY_KEYCODE[event.keyCode]) return KEYPAD_BY_KEYCODE[event.keyCode];
   const key = event.key ?? "";
@@ -35,9 +41,21 @@ export function keyCodeOf(event) {
   return key;
 }
 
-/** Whether the press should be left alone: held down, or with a modifier (Shift+E and the like belong to others). */
-export function isIgnoredPress(event) {
-  return Boolean(event.repeat || event.ctrlKey || event.altKey || event.metaKey || event.shiftKey);
+/** Notes a modifier going down or coming up in `held`, from that modifier's own key event. Other keys are skipped. */
+export function trackModifier(held, code, down) {
+  if (!MODIFIERS.includes(code)) return;
+  if (down) held.add(code);
+  else held.delete(code);
+}
+
+/**
+ * Whether the press should be left alone: held down, or made with a modifier held (Shift+E and the like belong to
+ * others). `held` comes from trackModifier; the event's own flags count as well, for a page that sets them. A
+ * modifier in `holdCodes` doesn't count, since holding a route key is how a route is planned.
+ */
+export function isIgnoredPress(event, held = new Set(), holdCodes = []) {
+  if (event.repeat) return true;
+  return MODIFIERS.some((m) => (held.has(m) || Boolean(event[MODIFIER_FLAG[m]])) && !holdCodes.includes(m));
 }
 
 /** The id of the first setting in `settings` bound to `code`, or null. */

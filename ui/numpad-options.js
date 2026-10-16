@@ -3,7 +3,7 @@
 
 import { CategoryType, OptionType, Options } from "/core/ui/options/model-options.js";
 import { CategoryData } from "/core/ui/options/options-helpers.js";
-import { SETTINGS, getBindings, setBinding } from "/tmt-numpad-unit-movement/ui/numpad-settings.js";
+import { SETTINGS, forgetBindings, getBindings, setBinding } from "/tmt-numpad-unit-movement/ui/numpad-settings.js";
 
 function keyLabel(key) {
   const name = key.label.startsWith("LOC_") ? Locale.compose(key.label) : key.label;
@@ -23,6 +23,9 @@ function addRow(setting) {
     description: setting.label + "_DESCRIPTION",
     dropdownItems: keys.map((key) => ({ label: keyLabel(key) })),
     initListener: (info) => {
+      // Each time Options opens, every row's initListener runs in order: the first row reads the store again, in
+      // case something else wrote it, and the rest use what it read.
+      if (setting === SETTINGS[0]) forgetBindings();
       info.selectedItemIndex = indexOfCode(getBindings()[setting.id]);
       info.valueOnOpen = info.selectedItemIndex;
     },

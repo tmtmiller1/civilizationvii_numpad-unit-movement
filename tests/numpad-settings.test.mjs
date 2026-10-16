@@ -9,10 +9,19 @@ globalThis.localStorage = {
   removeItem: (key) => store.delete(key)
 };
 
-const { DIRECTIONS, HOLD_KEYS, KEYS, MOD_ID, ROUTE_HOLDS, getBindings, setBinding } = await import("../ui/numpad-settings.js");
+// The game's window, for the event a write sends.
+globalThis.window = new EventTarget();
+
+const {
+  BINDINGS_CHANGED_EVENT, DIRECTIONS, HOLD_KEYS, KEYS, MOD_ID, ROUTE_HOLDS, forgetBindings, getBindings, setBinding
+} = await import("../ui/numpad-settings.js");
 const silenceErrors = (t) => t.mock.method(console, "error", () => {});
 
-beforeEach(() => store.clear());
+// The tests change the store behind the module's back, as another script context would.
+beforeEach(() => {
+  store.clear();
+  forgetBindings();
+});
 
 test("with nothing stored, every direction has its default key", () => {
   const bindings = getBindings();
@@ -81,6 +90,49 @@ test("a direction cannot be given a modifier and a hold key cannot be given an u
   store.set("modSettings", JSON.stringify({ [MOD_ID]: { bindings: { east: "Control", route: "Semicolon" } } }));
   assert.equal(getBindings().east, "Numpad6");
   assert.equal(getBindings().route, "Numpad5");
+});
+
+test("many key presses read the store once", (t) => {
+  setBinding("east", "Home");
+  const getItem = t.mock.method(globalThis.localStorage, "getItem");
+  for (let press = 0; press < 20; press++) assert.equal(getBindings().east, "Home");
+  assert.ok(getItem.mock.callCount() <= 1, `${getItem.mock.callCount()} reads`);
+});
+
+test("a write changes the kept keys at once and tells the window", (t) => {
+  getBindings();
+  let told = 0;
+  const listener = () => told++;
+  window.addEventListener(BINDINGS_CHANGED_EVENT, listener);
+  t.after(() => window.removeEventListener(BINDINGS_CHANGED_EVENT, listener));
+  setBinding("west", "End");
+  const getItem = t.mock.method(globalThis.localStorage, "getItem");
+  assert.equal(getBindings().west, "End");
+  assert.equal(getItem.mock.callCount(), 0);
+  assert.equal(told, 1);
+});
+
+test("a change written elsewhere shows once the kept keys are forgotten, with one read", (t) => {
+  assert.equal(getBindings().east, "Numpad6");
+  store.set("modSettings", JSON.stringify({ [MOD_ID]: { bindings: { east: "PageDown" } } }));
+  assert.equal(getBindings().east, "Numpad6");
+  const getItem = t.mock.method(globalThis.localStorage, "getItem");
+  forgetBindings();
+  for (let press = 0; press < 5; press++) assert.equal(getBindings().east, "PageDown");
+  assert.equal(getItem.mock.callCount(), 1);
+});
+
+test("a write that doesn't go ahead leaves the kept keys and the window alone", (t) => {
+  silenceErrors(t);
+  assert.equal(getBindings().east, "Numpad6");
+  let told = 0;
+  const listener = () => told++;
+  window.addEventListener(BINDINGS_CHANGED_EVENT, listener);
+  t.after(() => window.removeEventListener(BINDINGS_CHANGED_EVENT, listener));
+  store.set("modSettings", "[1,2,3]");
+  setBinding("east", "End");
+  assert.equal(getBindings().east, "Numpad6");
+  assert.equal(told, 0);
 });
 
 test("only letters are marked as game hotkeys", () => {
