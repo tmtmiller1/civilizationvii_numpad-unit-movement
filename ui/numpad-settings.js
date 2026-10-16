@@ -1,8 +1,12 @@
 // Which key moves the selected unit in each direction, and which keys are held to plan a route.
 //
 // The choice lives in the shared "modSettings" localStorage entry under this mod's id, the store Tower's other mods
-// use (settings-keeper.js keeps that entry readable). It is the player's, not the save's. No caching: the Options
-// screen and the game run in separate script contexts, so every read goes to the store.
+// use (settings-keeper.js keeps that entry readable). It is the player's, not the save's. That entry holds every
+// mod's data and runs to half a megabyte or more, so one read costs several milliseconds: the bindings are read once
+// and kept here. A write here updates them and sends BINDINGS_CHANGED_EVENT on the window; Options opening and that
+// event make the next getBindings() read the store again. The main menu and a game are separate pages, each with its
+// own copy of this module, and a game reads the store when it loads. In a game, Options opens in the game's own page
+// (the pause menu pushes it through ContextManager), so a change there reaches the key handler on the next press.
 
 export const MOD_ID = "tmt-numpad-unit-movement";
 
@@ -62,6 +66,10 @@ export const CANCEL = { id: "cancel", label: "LOC_NUMPAD_MOVE_CANCEL", key: "Num
 // Every setting, in the order the Options rows show them.
 export const SETTINGS = [...DIRECTIONS, ...ROUTE_HOLDS, CANCEL];
 
+export const BINDINGS_CHANGED_EVENT = "numpad-unit-movement-bindings-changed";
+
+let cached = null;
+
 function readRoot() {
   try {
     const parsed = JSON.parse(localStorage.getItem("modSettings") || "null");
@@ -71,15 +79,35 @@ function readRoot() {
   }
 }
 
-/** @returns {Record<string, string>} setting id -> KeyboardEvent.code ("" for none), defaults filled in. */
-export function getBindings() {
-  const saved = readRoot()?.[MOD_ID]?.bindings ?? {};
+// The saved keys with the defaults filled in; a key the list doesn't offer falls back to the default.
+function bindingsFrom(saved) {
   const bindings = {};
   for (const setting of SETTINGS) {
-    const code = saved[setting.id];
+    const code = saved?.[setting.id];
     bindings[setting.id] = typeof code === "string" && setting.keys.some((k) => k.code === code) ? code : setting.key;
   }
   return bindings;
+}
+
+/** @returns {Record<string, string>} setting id -> KeyboardEvent.code ("" for none), defaults filled in. */
+export function getBindings() {
+  cached ??= bindingsFrom(readRoot()?.[MOD_ID]?.bindings);
+  return cached;
+}
+
+/** The next getBindings() reads the store again, for when something else may have written it. */
+export function forgetBindings() {
+  cached = null;
+}
+
+// The keys just saved become the kept ones, and the window hears of it.
+function keepSaved(saved) {
+  cached = bindingsFrom(saved);
+  try {
+    window.dispatchEvent(new CustomEvent(BINDINGS_CHANGED_EVENT));
+  } catch (_) {
+    /* no window */
+  }
 }
 
 /** Saves one setting's key. A write goes ahead only over a store that reads back as a settings root. */
@@ -98,11 +126,13 @@ export function setBinding(settingId, code) {
     return;
   }
   const section = root[MOD_ID] && typeof root[MOD_ID] === "object" ? root[MOD_ID] : {};
-  section.bindings = { ...getBindings(), ...section.bindings, [settingId]: code };
+  section.bindings = { ...bindingsFrom(section.bindings), ...section.bindings, [settingId]: code };
   root[MOD_ID] = section;
   try {
     localStorage.setItem("modSettings", JSON.stringify(root));
   } catch (e) {
     console.error("[NumpadUnitMovement] key not saved: " + e);
+    return;
   }
+  keepSaved(section.bindings);
 }

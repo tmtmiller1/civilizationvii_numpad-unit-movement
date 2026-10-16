@@ -3,8 +3,12 @@ import { UnitMapDecorationSupport } from '/base-standard/ui/interface-modes/supp
 import { ContextManager } from '/core/ui/context-manager/context-manager.js';
 import { InterfaceMode } from '/core/ui/interface-modes/interface-modes.js';
 import ViewManager from '/core/ui/views/view-manager.js';
-import { isIgnoredPress, keyCodeOf, routeDirectionFor, settingFor } from '/tmt-numpad-unit-movement/ui/numpad-keys.js';
-import { CANCEL, DIRECTIONS, ROUTE_HOLDS, getBindings } from '/tmt-numpad-unit-movement/ui/numpad-settings.js';
+import {
+  isIgnoredPress, keyCodeOf, routeDirectionFor, settingFor, trackModifier
+} from '/tmt-numpad-unit-movement/ui/numpad-keys.js';
+import {
+  BINDINGS_CHANGED_EVENT, CANCEL, DIRECTIONS, ROUTE_HOLDS, forgetBindings, getBindings
+} from '/tmt-numpad-unit-movement/ui/numpad-settings.js';
 
 // The map is rows of pointy-top hexes, so a tile has no neighbour straight above or below it. "north" and "south"
 // take the diagonal neighbour that stays in the same column; pressed again from the next row, that is the other
@@ -24,6 +28,8 @@ const DIAGONALS = {
 
 // A route being planned: the key held down, the unit it is for and the tile the marker is on.
 let route = null;
+// The modifiers held down right now, kept from their own key events (see numpad-keys.js).
+const held = new Set();
 
 function isTyping() {
   const element = document.activeElement;
@@ -132,22 +138,34 @@ function cancelOrders() {
 }
 
 function onKeyDown(event) {
-  if (event.repeat) return;
   const code = keyCodeOf(event);
+  trackModifier(held, code, true);
+  if (event.repeat) return;
   if (route) return onRouteKey(code);
   const bindings = getBindings();
   if (settingFor(ROUTE_HOLDS, bindings, code)) return startRoute(code);
-  if (isIgnoredPress(event)) return;
+  if (isIgnoredPress(event, held, ROUTE_HOLDS.map((h) => bindings[h.id]))) return;
   if (bindings[CANCEL.id] === code) return cancelOrders();
   const direction = settingFor(DIRECTIONS, bindings, code);
   if (direction) moveOneTile(direction);
 }
 
 function onKeyUp(event) {
-  if (route && keyCodeOf(event) === route.holdCode) finishRoute();
+  const code = keyCodeOf(event);
+  trackModifier(held, code, false);
+  if (route && code === route.holdCode) finishRoute();
 }
 
 // Capture phase: with a unit selected the game stops key events before they bubble up to the window. The events are
 // left to carry on, so the game and other mods still see them.
 window.addEventListener("keydown", onKeyDown, true);
 window.addEventListener("keyup", onKeyUp, true);
+// A modifier let go while the game was in the background (Cmd+Tab) never sends its key-up, so the held set empties
+// when the game loses focus, and again when it gets it back.
+window.addEventListener("blur", () => held.clear());
+window.addEventListener("focus", () => held.clear());
+// A key changed in Options: the next key press reads the store again, in case Options wrote through another copy of
+// the settings module.
+window.addEventListener(BINDINGS_CHANGED_EVENT, forgetBindings);
+// Read the keys now, so the first key press doesn't pay for it.
+getBindings();

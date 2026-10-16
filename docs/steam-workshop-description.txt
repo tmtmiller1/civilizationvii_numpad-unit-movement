@@ -12,6 +12,12 @@ Civilization V and VI let you move units with the number pad. Civilization VII d
 [*][b]Everything else works as before.[/b] The game and other mods still get every key press; the mouse, the camera keys (arrows, W A S D) and gamepads are untouched. The keys only act on the map with a unit selected: in menus, while you're typing, or while the game is asking you to pick a tile, they're ignored.
 [*][b]Safe for any game.[/b] Your saves and the game's rules are untouched, so you can switch the mod on or off in the middle of a game.
 [/list]
+[h2]Good to know[/h2]
+[list]
+[*][b]Num Lock on Windows.[/b] With Num Lock off, a Windows number pad sends Home, End, the arrow keys and so on instead of digits. Turn Num Lock on, or set the directions to those keys in Options.
+[*][b]Tested on a Mac.[/b] Every check so far ran on a Mac. Windows builds its key events its own way, and the mod hasn't been tried there yet.
+[*][b]Map Trix.[/b] Map Trix uses number pad 0 to 7 and minus for its lenses, so with both mods on, one key switches a lens and moves the unit. Move this mod's keys elsewhere in Options, or Map Trix's in its own settings.
+[/list]
 [h2]Source and documentation[/h2]
 [list]
 [*][b]What's new:[/b] [url=https://github.com/tmtmiller1/civilizationvii_numpad-unit-movement/releases/latest]the latest release notes and a download[/url]
@@ -25,5 +31,5 @@ This mod is developed with [url=https://github.com/tmtmiller1/civilizationvii_to
 [/list]
 [h2]Special Thanks[/h2]
 [list]
-[*][b]Potato McWhisky[/b], for teaching me to love again, Civilization-wise (Civ VI), after growing up as a Civilization II, IV, and V player. Making this mod is an act of faith that the community will eventually help make Civilization VII as good as the previous entries.
+[*][b]Potato McWhisky[/b], for teaching me to love again, Civilization-wise (Civ VI), after growing up as a Civilization II, IV, and V player.
 [/list]

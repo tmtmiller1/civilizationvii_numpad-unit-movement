@@ -54,6 +54,8 @@ Select a unit and press a number pad key:
 - The unit stays selected while it has moves left, so you can keep pressing. When it runs out, the game moves on to
   the next unit as it normally does.
 - One press, one tile; holding a key down doesn't repeat.
+- A key pressed while Shift, Ctrl, Alt (Option) or Cmd is held is left to the game and other mods, so Shift+E and
+  the like keep their own meaning. A modifier you've set as a route key is the exception: holding it plans a route.
 - The keys work on the map with a unit selected. In a text box (chat, renaming a city), in a menu, or while the
   game is asking you to pick a tile, they're ignored.
 - The game and other mods still get every key press. The mod reads keyboard presses only, so the mouse, the camera
@@ -75,10 +77,11 @@ how the game treats a mouse order too.
 
 ## Changing the keys
 
-Options > Add-ons > Numpad Unit Movement has one row per direction, one for each hold key and one for Cancel. Each row offers the number pad digits, + and *,
-the number row, Home, End, Page Up, Page Down, Delete, and the letters. Letters are marked "(also a game hotkey)": the game still does its own action for those keys, so pick one only if you have
-moved that game hotkey elsewhere. Choose "None" to switch a direction off. A change applies to the next key press,
-in the main menu or during a game.
+Options > Add-ons > Numpad Unit Movement has one row per direction, one for each hold key and one for Cancel. Each
+row offers the number pad digits, + and *, the number row, Home, End, Page Up, Page Down, Delete, and the letters.
+Letters are marked "(also a game hotkey)": the game still does its own action for those keys, so pick one only if
+you have moved that game hotkey elsewhere. Choose "None" to switch a direction off. A change applies to the next key
+press, in the main menu or during a game.
 
 If two directions are given the same key, the first one in the list wins. The hold keys offer Ctrl, Shift and Tab
 as well as the keys above; Shift carries a note because on Windows it makes the number pad send Home, the arrows
@@ -88,11 +91,19 @@ and so on, which still steer the marker but also pan the camera.
 
 ## Other mods
 
-Checked against the 13 other Tower mods and the 57 Workshop mods installed here, by reading their code. In game it
+Checked against the 15 other Tower mods and the 57 Workshop mods installed here, by reading their code. In game it
 ran alongside the Tower mods and with every other mod switched off. Nothing else that was enabled uses the number pad.
 
 - **Map Trix** (bz-map-trix) binds number pad 0 to 7 and minus to its lenses. With both mods on, one key switches a
   lens and moves the unit. Move this mod's keys elsewhere in Options, or Map Trix's in its own settings.
+- **Zoom, Tilt, & Rotate** tilts and turns the camera with Shift and the arrow keys out of the box, and keeps those
+  presses from the game. This mod still sees them, and while a route is held it counts the arrow keys as directions
+  (that's for the Windows number pad, which sends arrows with Shift held). So the two meet there: with both mods on,
+  holding Numpad 5 and pressing Shift+Up tilted the camera. Whether the route's marker stepped as well hasn't been
+  watched yet. Away from a route, a key pressed with Shift held is left alone, so its other two keys, Shift+0 and
+  Shift+C, leave the unit where it is even if you've given 0 or C to a direction. On Windows, with Shift as a route
+  key, steering with the number pad sends arrows and is likely to tilt or turn the camera too;
+  [docs/windows-checklist.md](docs/windows-checklist.md) has a step for it.
 - **PD Building Labels** and **Chronicle** (ozq-chronicle) can swallow keys they use before other mods see them;
   Chronicle only while its own screens are open. A key either of them takes will not move a unit.
 - **Demographics**' storage repair button clears every mod's saved settings, these keys included. After using it,
@@ -106,8 +117,8 @@ into the game's `Mods` directory, so that `Mods/numpad-unit-movement/numpad-unit
 enable Numpad Unit Movement in the game's mod settings.
 
 The `Mods` directory is `%LOCALAPPDATA%\Firaxis Games\Sid Meier's Civilization VII\Mods` on Windows and
-`~/Library/Application Support/Civilization VII/Mods` on a Mac. Your saves aren't touched, so you can turn it on or off at any
-time.
+`~/Library/Application Support/Civilization VII/Mods` on a Mac. Your saves aren't touched, so you can turn it on or
+off at any time.
 
 Made for Civilization VII 1.5.0.
 
@@ -117,17 +128,21 @@ Made for Civilization VII 1.5.0.
   on, or bind the directions to those keys in Options. The arrow keys pan the camera in the unmodded game and are not
   offered.
 - Tested on a Mac only. On Windows the game builds its key events its own way, and that has not been watched.
+  [docs/windows-checklist.md](docs/windows-checklist.md) lists what to try there.
 
-## How it works
+## How the code works
 
 `ui/numpad-unit-movement.js` listens for key presses in the capture phase (with a unit selected, the game stops key
 events before they bubble up to the window), looks up the direction for the key, finds the neighbouring
 tile with `GameplayMap.getAdjacentPlotLocation`, and hands that tile to the game's own right-click handler
 (`WorldInput.doActionOnPlot`). It checks the same conditions the game checks before a right-click on the map.
 
-`ui/numpad-keys.js` turns a key press into a direction and is the part the unit tests cover. `ui/numpad-settings.js`
-holds the default keys and reads and writes the player's choice in the shared `modSettings`
-store. `ui/numpad-options.js` adds the Options rows. `ui/settings-keeper.js` is the Tower Settings Keeper file,
+`ui/numpad-keys.js` turns a key press into a direction and is the part the unit tests cover. The game never sets the
+Shift, Ctrl, Alt or Cmd flags on a key press, so it also keeps track of which modifiers are held from their own key
+presses. `ui/numpad-settings.js` holds the default keys and reads and writes the player's choice in the shared
+`modSettings` store. That store holds every mod's settings and can take several milliseconds to read, so the keys are
+read once when the game loads, and again when Options opens or a key is changed. `ui/numpad-options.js` adds the
+Options rows. `ui/settings-keeper.js` is the Tower Settings Keeper file,
 unchanged, which keeps that store readable so the keys survive a restart.
 
 ## Test record
@@ -139,8 +154,9 @@ physical number pad produces):
 
 - All eight number pad keys moved the settler one tile in the expected direction on screen. 8 and 2 alternated
   between the two upper (or lower) tiles in the unit's column; one 8 did not move because that tile was coast.
-- The number row 6 did nothing.
-- Number pad 0 to 9, + and * started no game action, and G still toggled the grid with the mod on.
+- Pressing 6 on the number row left the unit where it was.
+- Number pad 0 to 9, + and * didn't start any of the game's own actions, and G still toggled the grid with the mod
+  on.
 - The same direction test, G and the Options rows passed with every other mod switched off (only the base game
   and its DLC loaded).
 - Camera panning is untouched: with a unit selected, the arrow keys and W, A, S, D each moved the camera about 100
@@ -165,7 +181,8 @@ Route planning, real key presses through macOS:
   A unit that is still carrying out an earlier multi-turn order refused a new one, through the game's own
   `canStart` check, exactly as a right-click would.
 - Cancel: with a two-turn route queued, Numpad 0 cleared it (the game's `canStart` for Cancel went from true to
-  false and the queued destination was gone); on an idle unit, and pressed a second time, it did nothing.
+  false and the queued destination was gone). On an idle unit, and on a second press, the game's `canStart` said
+  there was nothing to cancel, and the unit stayed as it was.
 
 Events sent into the page with `devtools/step.sh` and by hand, with the fields the game sends:
 
@@ -173,10 +190,28 @@ Events sent into the page with `devtools/step.sh` and by hand, with the fields t
 - With a text box focused, number pad 4 did not move the selected unit.
 - The game's log showed no errors or warnings from the mod.
 - Options > Add-ons showed the eight rows with their default keys. Setting "Move right" to Home and confirming saved
-  the choice; Home then moved the unit right and number pad 6 did nothing.
+  the choice; Home then moved the unit right, and number pad 6 left it where it was.
 
-Not yet watched: Windows, and the keys surviving a restart. Once, after the Mac Help key was sent, no key reached
-the game's UI until the game was restarted; the cause is not known.
+Game 1.5.0 on a Mac, seed 4242, Tower's usual mod set with Demographics' saved records in the settings store,
+2026-10-15, running the scripts as released in 1.0.1. Real key presses through macOS:
+
+- Holding Numpad 5 and pressing 4 twice sent the unit two tiles west; holding Ctrl and pressing 9 twice sent it two
+  tiles up-right. Zoom, Tilt, & Rotate was on for both.
+- With Numpad 5 held, Shift+Up tilted the camera (Zoom, Tilt, & Rotate's key) and the unit stayed put. The tile
+  that Up steps to was coast, so this doesn't show whether the marker moved.
+- The game left the modifier flags off: an Up arrow sent with Shift held reached the game's UI with `shiftKey`
+  false, and Numpad 9 pressed with Ctrl held arrived with `ctrlKey` false. Shift and Ctrl arrive as key presses of
+  their own. So the 1.0.1 check for a held modifier never fired, which the change waiting for the next release fixes.
+- Each key press read and parsed the whole settings store, 7.7 ms a press on average (6.1 to 17.6 ms over 10
+  presses). The keys are now read once and kept, also waiting for the next release.
+- The first key presses sent just after bringing the game to the front sometimes went missing; once, the Ctrl
+  key-down was lost and the unit stepped one tile per press instead of planning a route. Waiting 1.5 s after
+  bringing the game forward fixed it.
+
+Not yet watched: Windows; the keys surviving a restart; whether a route's marker steps while Zoom, Tilt, & Rotate
+takes Shift+arrow; and the two changes waiting for the next release (the modifier check and keeping the keys). Once,
+after the Mac Help key was sent, the game's UI stopped getting key presses until the game was restarted. The cause
+isn't known, and the Help key wasn't sent in the 2026-10-15 session.
 
 ## Licence
 
