@@ -220,6 +220,15 @@ no bindings). The other half was watched 2026-10-16, on both sides (the usual se
 with the store the game wrote put in place before the next launch, the stored row, `getBindings()` and the Options
 row all read the new key.
 
+## Civilopedia History Corrections
+
+This mod also carries Civilopedia History Corrections, a text patch for
+[Civilopedia Expanded: Independents](https://steamcommunity.com/sharedfiles/filedetails/?id=3815309882). With that mod
+on, six East Asian history pages (Goguryeo, the Oirat, two Ryukyu pages, Nanzhao and Balhae) give each side where
+historians in different countries disagree, and a few factual errors are fixed. With it off, the game's pages stay as
+they are. The text is in `history-corrections/`, in English, Simplified Chinese and Traditional Chinese. Every Tower mod
+that carries it writes the same text, so running several of them together is fine.
+
 ## Licence
 
 MIT.
