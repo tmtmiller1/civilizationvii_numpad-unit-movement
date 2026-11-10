@@ -121,7 +121,7 @@ The `Mods` directory is `%LOCALAPPDATA%\Firaxis Games\Sid Meier's Civilization V
 `~/Library/Application Support/Civilization VII/Mods` on a Mac. Your saves aren't touched, so you can turn it on or
 off at any time.
 
-Made for Civilization VII 1.5.0.
+Made for Civilization VII 1.5.0, and works on 1.5.1 from 1.0.4.
 
 ## Known limits
 
@@ -208,6 +208,14 @@ Game 1.5.0 on a Mac, seed 4242, Tower's usual mod set with Demographics' saved r
 - The first key presses sent just after bringing the game to the front sometimes went missing; once, the Ctrl
   key-down was lost and the unit stepped one tile per press instead of planning a route. Waiting 1.5 s after
   bringing the game forward fixed it.
+
+Game 1.5.1 on a Mac, the mod alone, 2026-11-10, the 1.0.4 working copy:
+
+- The hold-key list reads "Tab (also a game hotkey)". This was read through the Options label code; the Options
+  screen itself wasn't opened.
+- A Warrior moved from 9,8 to 10,8 through `WorldInput.doActionOnPlot`, the call a keypad press makes, and the route
+  marker drew its arrows with turn numbers. No key was pressed in this game.
+- No numpad errors in `UI.log`. Tests 27/27.
 
 Not yet watched: Windows; the keys surviving a restart; whether a route's marker steps while Zoom, Tilt, & Rotate
 takes Shift+arrow; and the two changes in 1.0.2 (the modifier check and keeping the keys). Once,
