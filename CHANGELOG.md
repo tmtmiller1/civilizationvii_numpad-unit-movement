@@ -2,6 +2,12 @@
 
 All notable changes to Numpad Unit Movement are documented here. This project follows semantic versioning.
 
+## [1.0.4] - 2026-11-10
+
+- Works with the Civilization VII 1.5.1 update. The update gave Tab a job of its own (Toggle Details), so the hold-key
+  list in Options now reads "Tab (also a game hotkey)", the same note the letter keys have. If you use Tab as a hold
+  key, holding it with a Settler selected also switches the Settler lens's ruler.
+
 ## [1.0.3] - 2026-10-17
 
 - License: from this version the mod is under the Tower Mod License 1.0, in LICENSE. You can still play it, read the

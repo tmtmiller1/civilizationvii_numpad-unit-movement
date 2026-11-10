@@ -32,12 +32,13 @@ export const KEYS = [
 // Keys that can be held to plan a route: the modifiers the game passes on as a key-down and a key-up (Ctrl is
 // "Control" on either side; Backquote and Caps Lock send no usable key-down), then the same keys as above. Shift
 // carries a note: on Windows it makes the keypad send Home, the arrows and so on, which still steer the route but
-// also pan the camera.
+// also pan the camera. Since 1.5.1 Tab is the game's Toggle Details key (the Settler lens ruler, the yield breakdown
+// while placing a building), so it carries the game-hotkey note too.
 export const HOLD_KEYS = [
   KEYS[0],
   { code: "Control", label: "Ctrl", gameKey: false },
   { code: "Shift", label: "LOC_NUMPAD_MOVE_KEY_SHIFT", gameKey: false },
-  { code: "Tab", label: "Tab", gameKey: false },
+  { code: "Tab", label: "Tab", gameKey: true },
   ...KEYS.slice(1),
 ];
 

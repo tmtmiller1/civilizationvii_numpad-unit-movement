@@ -85,7 +85,8 @@ press, in the main menu or during a game.
 
 If two directions are given the same key, the first one in the list wins. The hold keys offer Ctrl, Shift and Tab
 as well as the keys above; Shift carries a note because on Windows it makes the number pad send Home, the arrows
-and so on, which still steer the marker but also pan the camera.
+and so on, which still steer the marker but also pan the camera. Tab is marked "(also a game hotkey)": it's the
+game's Toggle Details key, so holding it with a Settler selected also switches the Settler lens's ruler.
 
 ![The keys on offer for one direction](docs/screenshots/03-options-key-list.jpg)
 

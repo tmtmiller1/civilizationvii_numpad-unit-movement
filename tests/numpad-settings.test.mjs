@@ -135,6 +135,6 @@ test("a write that doesn't go ahead leaves the kept keys and the window alone", 
   assert.equal(told, 0);
 });
 
-test("only letters are marked as game hotkeys", () => {
-  for (const key of [...KEYS, ...HOLD_KEYS]) assert.equal(key.gameKey, /^Key[A-Z]$/.test(key.code), key.code);
+test("only letters and Tab are marked as game hotkeys", () => {
+  for (const key of [...KEYS, ...HOLD_KEYS]) assert.equal(key.gameKey, /^(Key[A-Z]|Tab)$/.test(key.code), key.code);
 });
